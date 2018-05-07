@@ -28,8 +28,4 @@ public class Plateau {
 	public void RemovePerso(Personnage pers){
 		etat[pers.GetLigne()][pers.GetColonne()] = 0;
 	}
-	public void MovePerso(Personnage pers, int c, int l) { //Deplacement du point pas de gestion des out of index
-		etat[pers.GetLigne()][pers.GetColonne()] = pers.GetID();
-		etat[l][c] = pers.GetID();
-	}
 }

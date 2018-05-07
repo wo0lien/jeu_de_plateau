@@ -60,10 +60,8 @@ public class jeu_de_plateau {
         while(!ended)
         {
 			//debut du tour
-			System.out.println("Choisi un personnage a déplacer");
-			persoSelected = sc.nextInt();
-			System.out.println("Ok ! Mtn choisis ou tu veux le déplacer z,q,s,d a pour arreter");
-			Deplacement(persoSelected, persos, portee);
+			
+			Deplacement( persos, portee);
 			           
         }
     }
@@ -72,14 +70,17 @@ public class jeu_de_plateau {
     /**
      * Méthode du déplacement sur le plateau
      */
-    public static void Deplacement(int n, Personnage[] p, Grille g) {
+    public static void Deplacement( Personnage[] p, Grille g) {
 		
 		Scanner sc = new Scanner(System.in);
+		Scanner scString = new Scanner(System.in); //deuxieme pour les types string sinon ca bug
 		int nbCasesRest;
-		char entryChar;
+		String entryChar = "";
+		
+		System.out.println("Choisi un personnage a déplacer");
+		int n = sc.nextInt();
 		
 		if(p[n].GetPoids()) //en fonction du poids lourd ou leger
-		
 		{
 			nbCasesRest = 2;
 		} else
@@ -87,9 +88,21 @@ public class jeu_de_plateau {
 			nbCasesRest = 4;
 		}
 		
+		while (nbCasesRest >= 1 || "a".equals(entryChar))
+		{
+			System.out.println("Ok ! Mtn choisis ou tu veux le deplacer avec z,q,s,d ou sinon c'est a pour arreter");
+
+			g.Reset();
+			g.SetupDeplacement(p[n], nbCasesRest);
+			AfficheGrille(g);
+			entryChar = scString.nextLine();
+			p[n].MovePerso(entryChar);
+			nbCasesRest--;
+		}
+		g.Reset();
 		g.SetupDeplacement(p[n], nbCasesRest);
 		AfficheGrille(g);
-		//nbCasesRest = sc.nextInt(); scanner char a trouver
+		System.out.println("On passe a la suite !");
     }
     
     /**
@@ -165,16 +178,15 @@ public class jeu_de_plateau {
         for(int i = 0; i < g.GetTaille(); i++) {
 			System.out.print("|");
 			for(int j = 0; j < g.GetTaille(); j++) {
-				switch (g.GetEtat()[i][j])
+				if (g.GetEtat()[i][j] == 0)
 				{
-					case 0:
-						System.out.print(" ");
-						break;
-					case 10:
-						System.out.print("x");
-					default :
-						System.out.print(g.GetEtat()[i][j]);
-						break;
+					System.out.print(" ");
+				} else if (g.GetEtat()[i][j] == 10)
+				{
+					System.out.print("x");
+				} else
+				{
+					System.out.print(g.GetEtat()[i][j]);
 				}
 				
 				System.out.print("|");

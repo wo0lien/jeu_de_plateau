@@ -32,20 +32,20 @@ public class Grille {
         
 	}
 	public void SetupDeplacement(Personnage pers, int nbCasesRest) {
-		for (int i = 0; i < taille; i++)
-		{
-			if(Math.abs(i - pers.GetLigne()) < nbCasesRest && i != pers.GetLigne())
-			{
-				etat[i][pers.GetColonne()] = 10;
+		
+		for (int i = 0; i < taille; i++) {
+			for (int j = 0; j < taille; j++) {
+				if (Math.abs(i - pers.GetLigne()) <= nbCasesRest && j == pers.GetColonne())
+				{
+					etat[i][j] = 10;
+				}
+				if (Math.abs(j - pers.GetColonne()) <= nbCasesRest && i == pers.GetLigne())
+				{
+					etat[i][j] = 10;
+				}
+				
 			}
 		}
-		for (int j = 0; j < taille; j++)
-		{
-			if(Math.abs(j - pers.GetColonne()) < nbCasesRest && j != pers.GetColonne())
-			{
-				etat[pers.GetLigne()][j] = 10;
-			}
-		}
-		etat[pers.GetLigne()][pers.GetColonne()] = pers.GetID();
+		etat[pers.GetLigne()][pers.GetColonne()] = pers.GetID();	
 	}
 }
