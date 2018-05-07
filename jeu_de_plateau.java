@@ -62,6 +62,7 @@ public class jeu_de_plateau {
 			//debut du tour
 			
 			Deplacement( persos, portee);
+			AffichePlateau(p);
 			           
         }
     }
@@ -77,18 +78,18 @@ public class jeu_de_plateau {
 		int nbCasesRest;
 		String entryChar = "";
 		
-		System.out.println("Choisi un personnage a déplacer");
+		System.out.println("Choisi un personnage a deplacer");
 		int n = sc.nextInt();
 		
 		if(p[n].GetPoids()) //en fonction du poids lourd ou leger
 		{
-			nbCasesRest = 2;
+			nbCasesRest = 3;
 		} else
 		{
 			nbCasesRest = 4;
 		}
 		
-		while (nbCasesRest >= 1 || "a".equals(entryChar))
+		while (nbCasesRest >= 1 && !"a".equals(entryChar))
 		{
 			System.out.println("Ok ! Mtn choisis ou tu veux le deplacer avec z,q,s,d ou sinon c'est a pour arreter");
 
