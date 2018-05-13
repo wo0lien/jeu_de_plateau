@@ -3,18 +3,18 @@ public class Personnage {
     private int ID; //ID du personnage utilsé dans toutes les class
     private int ligne; //position du perso
     private int colonne;
-    private int arme;// arme
     private boolean poids;//poids : true = lourd false = leger
     private Plateau plateau;
     private int classe; //1 = guerrier 2 = archer... a faire
     private String name; //nom de la classe voir du personnage si on se chauffe (création d'un objet classe ?)
+    Arme arme;
 	// Constructeur complet
 	
         public Personnage (int n,int c, int l, int a, boolean po, Plateau p) {
 			this.ID = n;
             this.colonne = c;
             this.ligne = l;
-            this.arme = a;
+            this.arme = new Arme(a); 
             this.poids = po;
             
             this.plateau = p;
@@ -29,10 +29,6 @@ public class Personnage {
     
     public int GetColonne(){
         return colonne;
-    }
-    
-	public int GetArme(){
-        return arme;
     }
     
     public boolean GetPoids(){

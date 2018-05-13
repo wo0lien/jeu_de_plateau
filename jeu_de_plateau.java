@@ -23,7 +23,7 @@ public class jeu_de_plateau {
                 Regles();
             } else if (entry == 2)
             {
-                
+				
             } else if (entry == 3)
             {
                 Jeu();
@@ -52,9 +52,6 @@ public class jeu_de_plateau {
         
         AffichePlateau(p);
         
-        //Personnage pers = new Personnage(1, 3, 4, 1, true, p);
-        //AffichePlateau(p);
-        
         boolean ended = false; //boolean de fin de partie
         
         while(!ended)
@@ -63,10 +60,37 @@ public class jeu_de_plateau {
 			
 			Deplacement( persos, portee);
 			AffichePlateau(p);
+			Attaque(p, persos, portee);
 			           
         }
     }
-    
+    /**
+     * Méthode de l'attaque d'un personnage sur un autre personnage
+     */
+    public static void Attaque(Plateau p, Personnage[] persos,  Grille portee) {
+		
+		Scanner sc = new Scanner(System.in);
+		
+		System.out.println("");
+		System.out.println("Ok on passe à l'attaque mtn !");
+		System.out.println("Choisis un personnage pour attaquer");
+		
+		//choix du personnage lignes a améliorer avec vérification de la validité de l'entrée ( ajout d'une variable de nombre de personnages sur le plateau + variable équipe dans le constructeur du personnage )
+		//stockage du personnage choisis dans n
+		//faudrait peut-etre en faire une méthode vu que on l'utilise 2 fois au moins dans le programme ca serait plu propre
+		
+		int persoChoisiAtt = sc.nextInt();
+		portee.Reset();
+		portee.SetupPortee(persos[persoChoisiAtt], p);
+		AfficheGrille(portee);
+		
+		System.out.println("Sur quel personnage veux-tu taper?");
+		int persoChoisiCible = sc.nextInt();
+		//test de validité de la personnage qu'on va déboiter a faire + application des dégats (réduction des points de vie etc) FACILE LOL allez gl
+		
+		//méthode à continuer
+		
+	}
     
     /**
      * Méthode du déplacement sur le plateau
@@ -127,12 +151,11 @@ public class jeu_de_plateau {
         
         for (int i = 0; i < 3; i++)
 		{
-			persos[n] = new Personnage(n, 5, (int)(i+p.GetTaille()/2-1), 1, true, p);
+			persos[n] = new Personnage(n, 2, (int)(i+p.GetTaille()/2-1), 2, true, p);
             n++;
-            //persos[n] = new Personnage(n, p.GetTaille() - 1, (int)(i+p.GetTaille()/2-1), 1, true, p);
-            //n++;
+            persos[n] = new Personnage(n, p.GetTaille() - 3, (int)(i+p.GetTaille()/2-1), 1, true, p);
+            n++;
 		}
-		
         return persos;
     }
     
@@ -185,6 +208,9 @@ public class jeu_de_plateau {
 				} else if (g.GetEtat()[i][j] == 10)
 				{
 					System.out.print("x");
+				} else if (g.GetEtat()[i][j] == 11)
+				{
+					System.out.print("o");
 				} else
 				{
 					System.out.print(g.GetEtat()[i][j]);

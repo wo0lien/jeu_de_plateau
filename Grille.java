@@ -24,8 +24,8 @@ public class Grille {
     }
     public void Reset(){ //remet toutes les valeurs de la grille a zero
 		
-		for(int i = 0; i < (taille - 1); i++) {
-            for(int j = 0; j < (taille - 1); j++) {
+		for(int i = 0; i < taille; i++) {
+            for(int j = 0; j < taille; j++) {
                 etat[i][j] = 0;
             }
         }
@@ -47,5 +47,27 @@ public class Grille {
 			}
 		}
 		etat[pers.GetLigne()][pers.GetColonne()] = pers.GetID();	
+	}
+	
+	public void SetupPortee(Personnage pers, Plateau p) {
+		
+		for (int i = 0; i < taille; i++) {
+			for (int j = 0; j < taille; j++) {
+				double distanceCase = Math.sqrt(Math.pow((double)(pers.GetColonne()) - j, 2) + Math.pow((double)(pers.GetLigne()) - i, 2));
+				if (distanceCase > pers.arme.GetPoMin() && distanceCase < pers.arme.GetPoMax())
+				{
+					if (p.GetEtat()[i][j] == 0)
+					{
+						this.etat[i][j] = 10;
+					} else
+					{
+						this.etat[i][j] = p.GetEtat()[i][j];
+					}
+					
+				}
+			}
+		}
+		
+		
 	}
 }
