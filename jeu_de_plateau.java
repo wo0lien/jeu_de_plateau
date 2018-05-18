@@ -86,11 +86,68 @@ public class jeu_de_plateau {
 		
 		System.out.println("Sur quel personnage veux-tu taper?");
 		int persoChoisiCible = sc.nextInt();
-		//test de validité de la personnage qu'on va déboiter a faire + application des dégats (réduction des points de vie etc) FACILE LOL allez gl
 		
+        
+        //test de validité de la personnage qu'on va déboiter a faire + application des dégats (réduction des points de vie etc) FACILE LOL allez gl
+		int d= int(Math.sqrt(Math.pow((persoChoisiCible.GetLigne() - persoChoisiAtt.GetLigne()),2)+Math.pow((persoChoisiCible.GetColonne()-persoChoicisiAtt.GetColonne()),2)));
+        boolean test=false;
+        
+        if (d<= persoChoisiAtt.GetpoMax() && d>=persoChoisiAtt.GetpoMin()){
+            test=true;
+        }
+        
+        
+        
 		//méthode à continuer
 		
 	}
+    
+    public static boolean SupArme (Personnage Att, Personnage Def){
+        boolean supArme = false;
+        Arme armeAtt = Att.GetArme()
+        Arme armeDef = Def.GetArme()
+        switch(armeAtt.GetId()){
+			case 2:
+                
+                switch(armeDef.GetId()){
+                    case 3:
+                    armeAtt.setDmg(armeAtt.GetDmg()+10);
+                    break;
+                    case 4:
+                    armeAtt.setDmg(armeAtt.GetDmg()-10);
+                    break;
+                    default:
+                    armeAtt.setDmg(armeAtt.GetDmg())
+                }
+				
+			case 3:
+                switch(armeDef.GetId()){
+                    case 4:
+                    armeAtt.setDmg(armeAtt.GetDmg()+10);
+                    break;
+                    case 2:
+                    armeAtt.setDmg(armeAtt.GetDmg()-10);
+                    break;
+                    default:
+                    armeAtt.setDmg(armeAtt.GetDmg())
+                }
+				
+			break;
+			case 4:
+                switch(armeDef.GetId()){
+                    case 2:
+                    armeAtt.setDmg(armeAtt.GetDmg()+10);
+                    break;
+                    case 3:
+                    armeAtt.setDmg(armeAtt.GetDmg()-10);
+                    break;
+                    default:
+                    armeAtt.setDmg(armeAtt.GetDmg())
+                }
+				
+			break;
+        }
+        
     
     /**
      * Méthode du déplacement sur le plateau

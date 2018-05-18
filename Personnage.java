@@ -5,17 +5,40 @@ public class Personnage {
     private int colonne;
     private boolean poids;//poids : true = lourd false = leger
     private Plateau plateau;
-    private int classe; //1 = guerrier 2 = archer... a faire
+    private int hp;
+    private int classe; //2 = guerrier 1 = archer... a faire
     private String name; //nom de la classe voir du personnage si on se chauffe (création d'un objet classe ?)
     Arme arme;
 	// Constructeur complet
 	
-        public Personnage (int n,int c, int l, int a, boolean po, Plateau p) {
+        public Personnage (int n,int c, int l, int a, boolean pod, Plateau p) {
 			this.ID = n;
             this.colonne = c;
             this.ligne = l;
             this.arme = new Arme(a); 
-            this.poids = po;
+            
+            if (a=1){
+                this.classe=1;
+            }else{
+                this.classe=2;
+            }
+            
+            this.poids = pod;
+            
+            if (a = 2){
+                if (pod== true){
+                    this.hp = 70;
+                }else{
+                    this.hp=50;
+                }
+            else{
+                    if (pod== true){
+                        this.hp = 50;
+                        }else{
+                        this.hp=30;
+                }
+            }
+        }
             
             this.plateau = p;
             plateau.AddPerso(this);
@@ -38,6 +61,13 @@ public class Personnage {
 		return ID;
 	}
 	
+    public int GetHP(){
+		return hp;
+	}
+    public int GetArme(){
+        return Arme.GetId();
+    }
+    
 	public void MovePerso(String d){
 		
 		plateau.RemovePerso(this);

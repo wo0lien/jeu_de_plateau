@@ -54,6 +54,7 @@ public class Arme{
 	public int GetPoMax(){
 		return poMax;
 	}
-	
+	public int SetDmg(){
+        
 }
 				
