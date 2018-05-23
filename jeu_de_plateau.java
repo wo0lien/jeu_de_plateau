@@ -231,9 +231,9 @@ public class jeu_de_plateau {
         
         for (int i = 0; i < 3; i++)
 		{
-			persos[n] = new Personnage(n, 2, (int)(i+p.GetTaille()/2-1), 2, true, p);
+			persos[n] = new Personnage(n, 2, (int)(i+p.GetTaille()/2-1), 2, true, p, true);
             n++;
-            persos[n] = new Personnage(n, p.GetTaille() - 3, (int)(i+p.GetTaille()/2-1), 1, true, p);
+            persos[n] = new Personnage(n, p.GetTaille() - 3, (int)(i+p.GetTaille()/2-1), 1, true, p, false);
             n++;
 		}
         return persos;
@@ -241,13 +241,26 @@ public class jeu_de_plateau {
     /**
      * Méthode qui permet de choisir un perso dans une des 2 équipes
      */
-    public static int ChoixPersoEquipe(boolean equipe, Personnage[] persos) {
+    public static int ChoixPersoEquipe(boolean equipe, Personnage[] persos, boolean joueur) {
 		
 		Scanner sc = new Scanner(System.in);
 		
-		
-		//a antoine de jouer
-		
+		int c=10;
+		boolean testequipe =false;
+		while(testequipe==false){
+			while(c<1||c>6){
+					
+				c = sc.nextInt();//ID du perso
+			}
+			if (persos[c].GetEquipe()==joueur)
+			{
+				testequipe=true;
+				//System.out.println("ce personnage est dans la bonne équipe!");
+			}else{
+				System.out.println("Ce personnage n'est pas dans la bonne équipe!");
+			}
+		}
+		return c;
 	}
     
     /**
