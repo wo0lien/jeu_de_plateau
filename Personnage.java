@@ -17,7 +17,7 @@ public class Personnage {
             this.ligne = l;
             this.arme = new Arme(a); 
             
-            if (a=1){
+            if (a == 1){
                 this.classe=1;
             }else{
                 this.classe=2;
@@ -25,20 +25,21 @@ public class Personnage {
             
             this.poids = pod;
             
-            if (a = 2){
+            if (a == 2){
+				
                 if (pod== true){
                     this.hp = 70;
-                }else{
+                } else {
                     this.hp=50;
                 }
-            else{
-                    if (pod== true){
-                        this.hp = 50;
-                        }else{
-                        this.hp=30;
-                }
+                
+            } else {
+				if (pod== true){
+					this.hp = 50;
+				} else {
+					this.hp=30;
+				}
             }
-        }
             
             this.plateau = p;
             plateau.AddPerso(this);
@@ -64,8 +65,8 @@ public class Personnage {
     public int GetHP(){
 		return hp;
 	}
-    public int GetArme(){
-        return Arme.GetId();
+    public Arme GetArme(){
+        return arme;
     }
     
 	public void MovePerso(String d){

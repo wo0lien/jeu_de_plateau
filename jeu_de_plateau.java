@@ -79,33 +79,31 @@ public class jeu_de_plateau {
 		//stockage du personnage choisis dans n
 		//faudrait peut-etre en faire une méthode vu que on l'utilise 2 fois au moins dans le programme ca serait plu propre
 		
-		int persoChoisiAtt = sc.nextInt();
+		int c1 = sc.nextInt();
 		portee.Reset();
-		portee.SetupPortee(persos[persoChoisiAtt], p);
+		portee.SetupPortee(persos[c1], p);
 		AfficheGrille(portee);
 		
 		System.out.println("Sur quel personnage veux-tu taper?");
-		int persoChoisiCible = sc.nextInt();
+		int c2 = sc.nextInt();
 		
         
         //test de validité de la personnage qu'on va déboiter a faire + application des dégats (réduction des points de vie etc) FACILE LOL allez gl
-		int d= int(Math.sqrt(Math.pow((persoChoisiCible.GetLigne() - persoChoisiAtt.GetLigne()),2)+Math.pow((persoChoisiCible.GetColonne()-persoChoicisiAtt.GetColonne()),2)));
+		int d = (int)(Math.sqrt(Math.pow((persos[c2].GetLigne() - persos[c1].GetLigne()),2)+Math.pow((persos[c2].GetColonne()- persos[c1].GetColonne()),2)));
         boolean test=false;
         
-        if (d<= persoChoisiAtt.GetpoMax() && d>=persoChoisiAtt.GetpoMin()){
-            test=true;
+        if (d <= persos[c1].GetArme().GetPoMax() && d >= persos[c1].GetArme().GetPoMin()){
+            test = true;
         }
-        
-        
         
 		//méthode à continuer
 		
 	}
     
-    public static boolean SupArme (Personnage Att, Personnage Def){
+    /*public static boolean SupArme (Personnage Att, Personnage Def){
         boolean supArme = false;
-        Arme armeAtt = Att.GetArme()
-        Arme armeDef = Def.GetArme()
+        Arme armeAtt = Att.GetArme();
+        Arme armeDef = Def.GetArme();
         switch(armeAtt.GetId()){
 			case 2:
                 
@@ -117,7 +115,7 @@ public class jeu_de_plateau {
                     armeAtt.setDmg(armeAtt.GetDmg()-10);
                     break;
                     default:
-                    armeAtt.setDmg(armeAtt.GetDmg())
+                    armeAtt.setDmg(armeAtt.GetDmg());
                 }
 				
 			case 3:
@@ -129,7 +127,7 @@ public class jeu_de_plateau {
                     armeAtt.setDmg(armeAtt.GetDmg()-10);
                     break;
                     default:
-                    armeAtt.setDmg(armeAtt.GetDmg())
+                    armeAtt.setDmg(armeAtt.GetDmg());
                 }
 				
 			break;
@@ -142,12 +140,11 @@ public class jeu_de_plateau {
                     armeAtt.setDmg(armeAtt.GetDmg()-10);
                     break;
                     default:
-                    armeAtt.setDmg(armeAtt.GetDmg())
+                    armeAtt.setDmg(armeAtt.GetDmg());
                 }
-				
 			break;
         }
-        
+    }*/
     
     /**
      * Méthode du déplacement sur le plateau
