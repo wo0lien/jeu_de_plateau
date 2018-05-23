@@ -38,11 +38,8 @@ public class jeu_de_plateau {
         System.out.println("");
         System.out.println("Let's start !!");
         
-		Scanner sc = new Scanner(System.in);
-		int persoSelected = 0; //variable de l'entrée utilisateur
-		char entryChar; //caractere entré par l'utilisateur
-        
         //---- initialisation ici ----
+        
         boolean joueur = false; //true pour le joueur 1 et false pour le joueur 2
         
         Plateau p = new Plateau(10);
@@ -60,7 +57,7 @@ public class jeu_de_plateau {
         {
 			//debut du tour
 			joueur = !joueur;
-			Deplacement(persos, portee);
+			Deplacement(persos, portee, p );
 			AffichePlateau(p);
 			Attaque(p, persos, portee);
 			           
@@ -107,10 +104,7 @@ public class jeu_de_plateau {
 				System.out.println("Vous ne pouvez pas attaquer ce personnage, il n'est pas a portée");
 			}
 			
-        
 		}
-        
-		//méthode à continuer
 		
 	}
 	
@@ -118,11 +112,18 @@ public class jeu_de_plateau {
      * Méthode qui applique les dégats d'un personnage sur un autre
      */
     public static void AppliqueDmgs(Personnage att, Personnage def) {
+		
 		int degats = att.GetArme().GetDmg();
-		if (att.GetArme().GetId() == 1)
+		
+		if ((att.GetArme().GetId() + 1) % 4 == def.GetArme().GetId()) //si l'arme du defenseur est celle d'apres l'arme de l'attaquant alors - 10
 		{
-			
+			degats = degats - 10;
+		} else if ((def.GetArme().GetId() + 1) % 4 == att.GetArme().GetId())//si l'arme du defenseur est celle d'avant l'arme de l'attaquant alors + 10
+		{
+			degats = degats + 10;
 		}
+		
+		def.SetHp(degats);
 		
 	}
     
@@ -175,7 +176,7 @@ public class jeu_de_plateau {
     /**
      * Méthode du déplacement sur le plateau
      */
-    public static void Deplacement( Personnage[] p, Grille g) {
+    public static void Deplacement( Personnage[] p, Grille g, Plateau plat) {
 		
 		Scanner sc = new Scanner(System.in);
 		Scanner scString = new Scanner(System.in); //deuxieme pour les types string sinon ca bug
@@ -198,14 +199,14 @@ public class jeu_de_plateau {
 			System.out.println("Ok ! Mtn choisis ou tu veux le deplacer avec z,q,s,d ou sinon c'est a pour arreter");
 
 			g.Reset();
-			g.SetupDeplacement(p[n], nbCasesRest);
+			g.SetupDeplacement(p[n], nbCasesRest, plat);
 			AfficheGrille(g);
 			entryChar = scString.nextLine();
 			p[n].MovePerso(entryChar);
 			nbCasesRest--;
 		}
 		g.Reset();
-		g.SetupDeplacement(p[n], nbCasesRest);
+		g.SetupDeplacement(p[n], nbCasesRest, plat);
 		AfficheGrille(g);
 		System.out.println("On passe a la suite !");
     }
@@ -231,9 +232,9 @@ public class jeu_de_plateau {
         
         for (int i = 0; i < 3; i++)
 		{
-			persos[n] = new Personnage(n, 2, (int)(i+p.GetTaille()/2-1), 2, true, p);
+			persos[n] = new Personnage(n, 2, (int)(i+p.GetTaille()/2-1), 2, true, p, true);
             n++;
-            persos[n] = new Personnage(n, p.GetTaille() - 3, (int)(i+p.GetTaille()/2-1), 1, true, p);
+            persos[n] = new Personnage(n, p.GetTaille() - 3, (int)(i+p.GetTaille()/2-1), 1, true, p, false);
             n++;
 		}
         return persos;
@@ -241,14 +242,13 @@ public class jeu_de_plateau {
     /**
      * Méthode qui permet de choisir un perso dans une des 2 équipes
      */
-    public static int ChoixPersoEquipe(boolean equipe, Personnage[] persos) {
+    /*public static int ChoixPersoEquipe(boolean equipe, Personnage[] persos) {
 		
 		Scanner sc = new Scanner(System.in);
 		
 		
 		//a antoine de jouer
-		
-	}
+	}*/
     
     /**
      * Méthode qui affiche les règles du jeu quand le joueur le demande

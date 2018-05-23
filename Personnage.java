@@ -74,6 +74,18 @@ public class Personnage {
     public boolean GetEquipe(){
 		return this.equipe;
 	}
+	
+	public void SetHp(int degats){
+		if (hp >= degats)
+		{
+			hp = hp - degats;
+		} else {
+			hp = 0;
+			plateau.RemovePerso(this);
+		}
+	}
+		
+	
 	public void MovePerso(String d){
 		
 		plateau.RemovePerso(this);

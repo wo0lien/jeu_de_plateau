@@ -31,17 +31,19 @@ public class Grille {
         }
         
 	}
-	public void SetupDeplacement(Personnage pers, int nbCasesRest) {
+	public void SetupDeplacement(Personnage pers, int nbCasesRest, Plateau p) {
 		
 		for (int i = 0; i < taille; i++) {
 			for (int j = 0; j < taille; j++) {
 				if (Math.abs(i - pers.GetLigne()) <= nbCasesRest && j == pers.GetColonne())
 				{
 					etat[i][j] = 10;
-				}
-				if (Math.abs(j - pers.GetColonne()) <= nbCasesRest && i == pers.GetLigne())
+				} else if (Math.abs(j - pers.GetColonne()) <= nbCasesRest && i == pers.GetLigne())
 				{
 					etat[i][j] = 10;
+				} 
+				if (p.GetEtat()[i][j] != 0) {
+					this.etat[i][j] = p.GetEtat()[i][j];
 				}
 				
 			}
