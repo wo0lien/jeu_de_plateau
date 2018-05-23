@@ -49,14 +49,13 @@ public class jeu_de_plateau {
         
         persos = PlacementPersos(persos, p);
         
-        AffichePlateau(p);
-        
         boolean ended = false; //boolean de fin de partie
         
         while(!ended)
         {
 			//debut du tour
 			joueur = !joueur;
+			AffichePlateau(p);
 			Deplacement(persos, portee, p );
 			AffichePlateau(p);
 			Attaque(p, persos, portee);
@@ -124,6 +123,7 @@ public class jeu_de_plateau {
 		}
 		
 		def.SetHp(degats);
+		System.out.println("Les hp du perso sont mtn de"+def.GetHP());
 		
 	}
     

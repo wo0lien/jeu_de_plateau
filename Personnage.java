@@ -5,7 +5,7 @@ public class Personnage {
     private int colonne;
     private boolean poids;//poids : true = lourd false = leger
     private Plateau plateau;
-    private int hp;
+    private int hp; //nombre d'HPs du personnage
     private int classe; //2 = guerrier 1 = archer... a faire
     private String name; //nom de la classe voir du personnage si on se chauffe (création d'un objet classe ?)
     private boolean equipe;
