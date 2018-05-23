@@ -249,6 +249,27 @@ public class jeu_de_plateau {
 		
 		//a antoine de jouer
 	}*/
+    public static int ChoixPersoEquipe(boolean equipe, Personnage[] persos, boolean joueur) {
+		
+		Scanner sc = new Scanner(System.in);
+		
+		int c=10;
+		boolean testequipe =false;
+		while(testequipe==false){
+			while(c<1||c>6){
+					
+				c = sc.nextInt();//ID du perso
+			}
+			if (persos[c].GetEquipe()==joueur)
+			{
+				testequipe=true;
+				//System.out.println("ce personnage est dans la bonne équipe!");
+			}else{
+				System.out.println("Ce personnage n'est pas dans la bonne équipe!");
+			}
+		}
+		return c;
+	}
     
     /**
      * Méthode qui affiche les règles du jeu quand le joueur le demande
