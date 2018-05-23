@@ -43,6 +43,8 @@ public class jeu_de_plateau {
 		char entryChar; //caractere entré par l'utilisateur
         
         //---- initialisation ici ----
+        boolean joueur = false; //true pour le joueur 1 et false pour le joueur 2
+        
         Plateau p = new Plateau(10);
         Grille portee = new Grille(10); //plateau utilisé uniquement pour la portée des attaques et des déplacements
         
@@ -57,8 +59,8 @@ public class jeu_de_plateau {
         while(!ended)
         {
 			//debut du tour
-			
-			Deplacement( persos, portee);
+			joueur = !joueur;
+			Deplacement(persos, portee);
 			AffichePlateau(p);
 			Attaque(p, persos, portee);
 			           
@@ -89,14 +91,38 @@ public class jeu_de_plateau {
 		
         
         //test de validité de la personnage qu'on va déboiter a faire + application des dégats (réduction des points de vie etc) FACILE LOL allez gl
-		int d = (int)(Math.sqrt(Math.pow((persos[c2].GetLigne() - persos[c1].GetLigne()),2)+Math.pow((persos[c2].GetColonne()- persos[c1].GetColonne()),2)));
-        boolean test=false;
+        boolean testDistance = false;
         
-        if (d <= persos[c1].GetArme().GetPoMax() && d >= persos[c1].GetArme().GetPoMin()){
-            test = true;
-        }
+        while (!testDistance)
+		{
+        
+			double distance = Math.sqrt(Math.pow((double)(persos[c1].GetColonne()) - (double)(persos[c2].GetColonne()), 2) + Math.pow((double)(persos[c1].GetLigne()) - (double)(persos[c2].GetLigne()), 2));
+			
+			if (distance <= persos[c1].GetArme().GetPoMax() && distance >= persos[c1].GetArme().GetPoMin())
+			{
+				testDistance = true;
+				AppliqueDmgs(persos[c1], persos[c2]); 
+			} else
+			{
+				System.out.println("Vous ne pouvez pas attaquer ce personnage, il n'est pas a portée");
+			}
+			
+        
+		}
         
 		//méthode à continuer
+		
+	}
+	
+	/**
+     * Méthode qui applique les dégats d'un personnage sur un autre
+     */
+    public static void AppliqueDmgs(Personnage att, Personnage def) {
+		int degats = att.GetArme().GetDmg();
+		if (att.GetArme().GetId() == 1)
+		{
+			
+		}
 		
 	}
     
@@ -212,6 +238,17 @@ public class jeu_de_plateau {
 		}
         return persos;
     }
+    /**
+     * Méthode qui permet de choisir un perso dans une des 2 équipes
+     */
+    public static int ChoixPersoEquipe(boolean equipe, Personnage[] persos) {
+		
+		Scanner sc = new Scanner(System.in);
+		
+		
+		//a antoine de jouer
+		
+	}
     
     /**
      * Méthode qui affiche les règles du jeu quand le joueur le demande
