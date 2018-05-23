@@ -8,14 +8,17 @@ public class Personnage {
     private int hp;
     private int classe; //2 = guerrier 1 = archer... a faire
     private String name; //nom de la classe voir du personnage si on se chauffe (création d'un objet classe ?)
+    private boolean equipe;
     Arme arme;
 	// Constructeur complet
 	
-        public Personnage (int n,int c, int l, int a, boolean pod, Plateau p) {
+        public Personnage (int n,int c, int l, int a, boolean pod, Plateau p, boolean e) {
 			this.ID = n;
             this.colonne = c;
             this.ligne = l;
-            this.arme = new Arme(a); 
+            this.arme = new Arme(a);
+            this.equipe=e;
+            
             
             if (a == 1){
                 this.classe=1;
@@ -68,7 +71,9 @@ public class Personnage {
     public Arme GetArme(){
         return arme;
     }
-    
+    public boolean GetEquipe(){
+		return this.equipe;
+	}
 	public void MovePerso(String d){
 		
 		plateau.RemovePerso(this);
