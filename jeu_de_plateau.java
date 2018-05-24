@@ -236,9 +236,20 @@ public class jeu_de_plateau {
         
         for (int i = 0; i < 3; i++)
 		{
-			persos[n] = new Personnage(n, 2, (int)(i+p.GetTaille()/2-1), 2, true, p, true);
+			boolean pod= false;
+			int c=(int)(2*Math.random());
+				if(c==1){
+					pod=true;
+				}else{
+					pod=false;
+				}
+				c =(int)(4*Math.random());
+				int a = c+1;
+				
+				
+			persos[n] = new Personnage(n, 2, (int)(i+p.GetTaille()/2-1), a, pod, p, true);
             n++;
-            persos[n] = new Personnage(n, p.GetTaille() - 3, (int)(i+p.GetTaille()/2-1), 1, true, p, false);
+            persos[n] = new Personnage(n, p.GetTaille() - 3, (int)(i+p.GetTaille()/2-1), a, pod, p, false);
             n++;
 		}
         return persos;
