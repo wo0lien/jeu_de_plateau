@@ -55,8 +55,9 @@ public class jeu_de_plateau {
         {
 			//debut du tour
 			joueur = !joueur;
+
 			AffichePlateau(p, persos);
-			Deplacement(persos, portee, p );
+			Deplacement(persos, portee, p, joueur);
 			AffichePlateau(p, persos);
 			Attaque(p, persos, portee);
 			           
@@ -201,15 +202,19 @@ public class jeu_de_plateau {
     /**
      * Méthode du déplacement sur le plateau
      */
-    public static void Deplacement( Personnage[] p, Grille g, Plateau plat) {
+    public static void Deplacement( Personnage[] p, Grille g, Plateau plat, boolean joueur) {
 		
 		Scanner sc = new Scanner(System.in);
 		Scanner scString = new Scanner(System.in); //deuxieme pour les types string sinon ca bug
 		int nbCasesRest;
 		String entryChar = "";
 		
+		
+		
+		
 		System.out.println("Choisi un personnage a deplacer");
-		int n = sc.nextInt();
+		int n = ChoixPersoEquipe(p, joueur);
+		
 		
 		if(p[n].GetPoids()) //en fonction du poids lourd ou leger
 		{
@@ -268,7 +273,8 @@ public class jeu_de_plateau {
     /**
      * Méthode qui permet de choisir un perso dans une des 2 équipes
      */
-    public static int ChoixPersoEquipe(boolean equipe, Personnage[] persos, boolean joueur) {
+
+    public static int ChoixPersoEquipe( Personnage[] persos, boolean joueur) {
 		
 		Scanner sc = new Scanner(System.in);
 		
@@ -285,6 +291,7 @@ public class jeu_de_plateau {
 				//System.out.println("ce personnage est dans la bonne équipe!");
 			}else{
 				System.out.println("Ce personnage n'est pas dans la bonne équipe!");
+				c= 10; //evite de boucler en faisant en sorte que c
 			}
 		}
 		return c;
