@@ -9,6 +9,7 @@ public class Personnage {
     private int classe; //2 = guerrier 1 = archer... a faire
     private String name; //nom de la classe voir du personnage si on se chauffe (création d'un objet classe ?)
     private boolean equipe;
+    private String equipeName; //nom de l'équipe pour éviter les true false + aligner l'affichage
     Arme arme;
 	// Constructeur complet
 	
@@ -47,6 +48,16 @@ public class Personnage {
             this.plateau = p;
             plateau.AddPerso(this);
             
+            if (equipe)
+			{
+				this.equipeName = "Rouge";
+			} else
+			{
+				this.equipeName = "Bleue";
+			}
+			
+			
+            
         }
         
     // Accesseurs
@@ -78,7 +89,7 @@ public class Personnage {
 	public void SetHp(int degats){
 		if (hp >= degats)
 		{
-			hp = hp - degats;
+			hp -= degats;
 		} else {
 			hp = 0;
 			plateau.RemovePerso(this);
@@ -106,7 +117,7 @@ public class Personnage {
 	}
 	
 	public String toString() {
-        String description = "Le personnage "+ID+" est un <nom de classe>";
+        String description = "perso "+ID+" | equipe : "+equipeName+" | hp : "+hp+" | "+arme.GetName();
         return description;
     }
     

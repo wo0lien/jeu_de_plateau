@@ -55,9 +55,9 @@ public class jeu_de_plateau {
         {
 			//debut du tour
 			joueur = !joueur;
-			AffichePlateau(p);
+			AffichePlateau(p, persos);
 			Deplacement(persos, portee, p );
-			AffichePlateau(p);
+			AffichePlateau(p, persos);
 			Attaque(p, persos, portee);
 			           
         }
@@ -82,28 +82,53 @@ public class jeu_de_plateau {
 		portee.SetupPortee(persos[c1], p);
 		AfficheGrille(portee);
 		
-		System.out.println("Sur quel personnage veux-tu taper?");
-		int c2 = sc.nextInt();
+		//test si il y a au moins un personnage à portée
 		
-        
-        //test de validité de la personnage qu'on va déboiter a faire + application des dégats (réduction des points de vie etc) FACILE LOL allez gl
-        boolean testDistance = false;
-        
-        while (!testDistance)
-		{
-        
-			double distance = Math.sqrt(Math.pow((double)(persos[c1].GetColonne()) - (double)(persos[c2].GetColonne()), 2) + Math.pow((double)(persos[c1].GetLigne()) - (double)(persos[c2].GetLigne()), 2));
-			
-			if (distance <= persos[c1].GetArme().GetPoMax() && distance >= persos[c1].GetArme().GetPoMin())
-			{
-				testDistance = true;
-				AppliqueDmgs(persos[c1], persos[c2]); 
-			} else
-			{
-				System.out.println("Vous ne pouvez pas attaquer ce personnage, il n'est pas a portée");
+		boolean persoAPortee = false;
+		
+		for(int i = 0; i < portee.GetTaille(); i++) {
+			for(int j = 0; j < portee.GetTaille(); j++) {
+				
+				if (portee.GetEtat()[i][j] > 0 && portee.GetEtat()[i][j] < 6) //equivaut a dire qu'il y a un perso affiché sur cette case (cad dans la portée)
+				{
+					persoAPortee = true;
+				}
 			}
-			
 		}
+		
+		//en fonction du résultat du test =>
+		
+		if (persoAPortee)
+		{
+		
+			boolean testDistance = false;
+			
+			while (!testDistance)
+			{
+			
+				System.out.println("Sur quel personnage veux-tu taper?");
+				int c2 = sc.nextInt();
+			
+			
+				//test de validité de la personnage qu'on va déboiter a faire + application des dégats (réduction des points de vie etc) FACILE LOL allez gl
+			
+			
+				double distance = Math.sqrt(Math.pow((double)(persos[c1].GetColonne()) - (double)(persos[c2].GetColonne()), 2) + Math.pow((double)(persos[c1].GetLigne()) - (double)(persos[c2].GetLigne()), 2));
+				if (distance <= persos[c1].GetArme().GetPoMax() && distance >= persos[c1].GetArme().GetPoMin())
+				{
+					testDistance = true;
+					AppliqueDmgs(persos[c1], persos[c2]); 
+				} else
+				{
+					System.out.println("Vous ne pouvez pas attaquer ce personnage, il n'est pas a portée");
+				}
+				
+			}
+		} else
+		{
+			System.out.println("Aucun personnage n'est à portée... dommage ! on passe à la suite");
+		}
+		
 		
 	}
 	
@@ -123,7 +148,7 @@ public class jeu_de_plateau {
 		}
 		
 		def.SetHp(degats);
-		System.out.println("Les hp du perso sont mtn de"+def.GetHP());
+		System.out.println("Les hps du perso sont maintenant de "+def.GetHP());
 		
 	}
     
@@ -209,6 +234,7 @@ public class jeu_de_plateau {
 		g.SetupDeplacement(p[n], nbCasesRest, plat);
 		AfficheGrille(g);
 		System.out.println("On passe a la suite !");
+		
     }
     
     /**
@@ -242,13 +268,6 @@ public class jeu_de_plateau {
     /**
      * Méthode qui permet de choisir un perso dans une des 2 équipes
      */
-    /*public static int ChoixPersoEquipe(boolean equipe, Personnage[] persos) {
-		
-		Scanner sc = new Scanner(System.in);
-		
-		
-		//a antoine de jouer
-	}*/
     public static int ChoixPersoEquipe(boolean equipe, Personnage[] persos, boolean joueur) {
 		
 		Scanner sc = new Scanner(System.in);
@@ -285,7 +304,7 @@ public class jeu_de_plateau {
     /**
      * Méthode qui affiche le plateau dans l'état actuel
      */
-    public static void AffichePlateau(Plateau p) { //il faudrait faire en sorte quelle soit en haut de la fenetre (=saute le bon nombre de lignes)
+    public static void AffichePlateau(Plateau p, Personnage[] persos) { //il faudrait faire en sorte quelle soit en haut de la fenetre (=saute le bon nombre de lignes)
         System.out.println("");
         for(int i = 0; i < p.GetTaille(); i++) {
 			System.out.print("|");
@@ -301,6 +320,10 @@ public class jeu_de_plateau {
 				}
 				
 				System.out.print("|");
+			}
+			if (i > 0 && i < 7)//affichage des persos verif hps peut etre ?
+			{
+				System.out.print("    "+persos[i]);
 			}
 			System.out.println("");
 		}

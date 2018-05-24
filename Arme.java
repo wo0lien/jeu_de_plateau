@@ -14,7 +14,7 @@ public class Arme{
 		switch(this.id){
 			case 1:
 				this.name="Arc";
-				this.dmg=10;
+				this.dmg=20; //10 peut etre apres mais 20 pour l'instant pour les tests
 				this.poMax=5;
 				this.poMin=2;
 			break;
