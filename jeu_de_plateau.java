@@ -14,7 +14,7 @@ public class jeu_de_plateau {
         while(entry != 3) {
             System.out.println("Bonjour et bienvenue dans notre jeu de plateau");//accents font bugger le bordel
             System.out.println("               -----------------");
-            System.out.println("1. Afficher les regles");
+            System.out.println("1. Afficher les règles");
             System.out.println("2. Modifier les parametres ");
             System.out.println("3. Jouer");
             System.out.println("               -----------------");
@@ -84,7 +84,7 @@ public class jeu_de_plateau {
 		Scanner sc = new Scanner(System.in);
 		
 		System.out.println("");
-		System.out.println("Ok on passe à l'attaque mtn !");
+		System.out.println("Ok on passe à l'attaque maintenant !");
 		System.out.println("Choisis un personnage pour attaquer");
 		
 		int c1 = ChoixPersoEquipe(persos, joueur); //choisis un perso dans l'équipe du joueur
@@ -185,7 +185,7 @@ public class jeu_de_plateau {
 		
 		
 		
-		System.out.println("Choisi un personnage a deplacer");
+		System.out.println("Choisi un personnage à déplacer");
 		int n = ChoixPersoEquipe(p, joueur);
 		
 		
@@ -199,7 +199,7 @@ public class jeu_de_plateau {
 		
 		while (nbCasesRest >= 1 && !"a".equals(entryChar))
 		{
-			System.out.println("Ok ! Mtn choisis ou tu veux le deplacer avec z,q,s,d ou sinon c'est a pour arreter");
+			System.out.println("Ok ! Maintenant choisis où tu veux le deplacer avec z,q,s,d ou sinon c'est a pour arreter");
 
 			g.Reset();
 			g.SetupDeplacement(p[n], nbCasesRest, plat);
@@ -216,8 +216,8 @@ public class jeu_de_plateau {
 		g.Reset();
 		g.SetupDeplacement(p[n], nbCasesRest, plat);
 		AfficheGrille(g, p);
-		System.out.println("On passe a la suite !");
-		System.out.println("On passe a la suite !");
+		System.out.println("On passe à la suite !");
+		System.out.println("On passe à la suite !");
 		
     }
     
@@ -304,7 +304,26 @@ public class jeu_de_plateau {
      */
     public static void Regles() {
         System.out.println("");
-        System.out.println("Voici les regles : blablabla");
+        System.out.println("Coucou les loulous,");
+        System.out.println("Si vous venez de lancer une partie et que vous n’avez rien compris vous êtes au bon endroit.");
+        System.out.println("Voici les règles");
+        System.out.println("Vous allez vous affronter en 1 contre 1 sur un plateau 10*10, le premier qui arrive à éliminer toutes les unités gagnera le duel.");
+        System.out.println("Vous allez vous affronter avec une armée composée de 3 unités. Chacun son tour, vous pouvez déplacer 1 unité et attaquez celles de votre adversaire.");
+        System.out.println("Il y a 4 types d’unités différentes.");
+        System.out.println("    - L’épée");
+        System.out.println("    - La lance");
+        System.out.println("    - La hache");
+        System.out.println("    - L’arc");
+        System.out.println("Vous aurez les mêmes unités qui seront choisis aléatoirement par l’ordinateur. ");
+        System.out.println("Il existe un triangle de supériorité");
+        System.out.println("    hache > lance");
+        System.out.println("    lance > épée");
+        System.out.println("    épée > lance");
+        System.out.println("Si vous attaquez une unité avec une unité supérieure, vous infligerez plus de dégâts, par contre si vous attaquez avec une unité avec une unité inférieure vous infligerez moins de dégâts.");
+        System.out.println("L’arc ne présente aucun lien de supériorité.");
+        System.out.println("Il y a un principe de légèreté. Chaque unité peut être lourde ou légère. Si elle est lourde, elle aura plus de point de vie mais son déplacement sera limité. Si elle est légère, elle aura donc moins de point de vie mais aura plus de points de déplacement.");
+        System.out.println("Pour la portée, l'épée, la hache et la lance peuvent attaquer les cases autours d’elles (croix d’une case). L’arc peut attaquer avec sur un cercle de 5 cases mais ne peut pas attaquer une unité collée à lui.");
+        System.out.println("Bonne chance, et que le meilleur gagne !");
         System.out.println("Retour au menu...");
         System.out.println("");
         

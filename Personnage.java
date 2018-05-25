@@ -138,13 +138,6 @@ public class Personnage {
         return description;
     }
     
-    /*public void testdeplacement (int x, int y){
-        boolean test = true; 
-        if (x==c && y==l ) {
-            test == false;
-            System.out.println("boloss, tu vas écraser un perso !");
-        }
-    }
-    */        
+     
 }
 
