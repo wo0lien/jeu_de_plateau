@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.InputMismatchException;
 
 public class jeu_de_plateau {
     
@@ -59,14 +60,14 @@ public class jeu_de_plateau {
 			AffichePlateau(p, persos);
 			Deplacement(persos, portee, p, joueur);
 			AffichePlateau(p, persos);
-			Attaque(p, persos, portee);
+			Attaque(p, persos, portee, joueur);
 			           
         }
     }
     /**
      * Méthode de l'attaque d'un personnage sur un autre personnage
      */
-    public static void Attaque(Plateau p, Personnage[] persos,  Grille portee) {
+    public static void Attaque(Plateau p, Personnage[] persos,  Grille portee, boolean joueur) {
 		
 		Scanner sc = new Scanner(System.in);
 		
@@ -74,14 +75,10 @@ public class jeu_de_plateau {
 		System.out.println("Ok on passe à l'attaque mtn !");
 		System.out.println("Choisis un personnage pour attaquer");
 		
-		//choix du personnage lignes a améliorer avec vérification de la validité de l'entrée ( ajout d'une variable de nombre de personnages sur le plateau + variable équipe dans le constructeur du personnage )
-		//stockage du personnage choisis dans n
-		//faudrait peut-etre en faire une méthode vu que on l'utilise 2 fois au moins dans le programme ca serait plu propre
-		
-		int c1 = sc.nextInt();
+		int c1 = ChoixPersoEquipe(persos, joueur); //choisis un perso dans l'équipe du joueur
 		portee.Reset();
 		portee.SetupPortee(persos[c1], p);
-		AfficheGrille(portee);
+		AfficheGrille(portee, persos);
 		
 		//test si il y a au moins un personnage à portée
 		
@@ -108,9 +105,9 @@ public class jeu_de_plateau {
 			{
 			
 				System.out.println("Sur quel personnage veux-tu taper?");
-				int c2 = sc.nextInt();
-			
-			
+				
+                int c2 = sc.nextInt();
+                
 				//test de validité de la personnage qu'on va déboiter a faire + application des dégats (réduction des points de vie etc) FACILE LOL allez gl
 			
 			
@@ -153,52 +150,6 @@ public class jeu_de_plateau {
 		
 	}
     
-    /*public static boolean SupArme (Personnage Att, Personnage Def){
-        boolean supArme = false;
-        Arme armeAtt = Att.GetArme();
-        Arme armeDef = Def.GetArme();
-        switch(armeAtt.GetId()){
-			case 2:
-                
-                switch(armeDef.GetId()){
-                    case 3:
-                    armeAtt.setDmg(armeAtt.GetDmg()+10);
-                    break;
-                    case 4:
-                    armeAtt.setDmg(armeAtt.GetDmg()-10);
-                    break;
-                    default:
-                    armeAtt.setDmg(armeAtt.GetDmg());
-                }
-				
-			case 3:
-                switch(armeDef.GetId()){
-                    case 4:
-                    armeAtt.setDmg(armeAtt.GetDmg()+10);
-                    break;
-                    case 2:
-                    armeAtt.setDmg(armeAtt.GetDmg()-10);
-                    break;
-                    default:
-                    armeAtt.setDmg(armeAtt.GetDmg());
-                }
-				
-			break;
-			case 4:
-                switch(armeDef.GetId()){
-                    case 2:
-                    armeAtt.setDmg(armeAtt.GetDmg()+10);
-                    break;
-                    case 3:
-                    armeAtt.setDmg(armeAtt.GetDmg()-10);
-                    break;
-                    default:
-                    armeAtt.setDmg(armeAtt.GetDmg());
-                }
-			break;
-        }
-    }*/
-    
     /**
      * Méthode du déplacement sur le plateau
      */
@@ -230,14 +181,14 @@ public class jeu_de_plateau {
 
 			g.Reset();
 			g.SetupDeplacement(p[n], nbCasesRest, plat);
-			AfficheGrille(g);
+			AfficheGrille(g, p);
 			entryChar = scString.nextLine();
 			p[n].MovePerso(entryChar);
 			nbCasesRest--;
 		}
 		g.Reset();
 		g.SetupDeplacement(p[n], nbCasesRest, plat);
-		AfficheGrille(g);
+		AfficheGrille(g, p);
 		System.out.println("On passe a la suite !");
 		
     }
@@ -339,7 +290,7 @@ public class jeu_de_plateau {
 				
 				System.out.print("|");
 			}
-			if (i > 0 && i < 7)//affichage des persos verif hps peut etre ?
+			if (i > 0 && i < 7)//affichage des persos verif hp a faire?
 			{
 				System.out.print("    "+persos[i]);
 			}
@@ -350,7 +301,7 @@ public class jeu_de_plateau {
     /**
      * Méthode qui affiche la grille dans l'état actuel
      */
-    public static void AfficheGrille(Grille g) { //il faudrait faire en sorte quelle soit en haut de la fenetre (=saute le bon nombre de lignes)
+    public static void AfficheGrille(Grille g, Personnage[] persos) { //il faudrait faire en sorte quelle soit en haut de la fenetre (=saute le bon nombre de lignes)
         System.out.println("");
         for(int i = 0; i < g.GetTaille(); i++) {
 			System.out.print("|");
@@ -370,6 +321,10 @@ public class jeu_de_plateau {
 				}
 				
 				System.out.print("|");
+			}
+            if (i > 0 && i < 7)//affichage des persos verif hp a faire?
+			{
+				System.out.print("    "+persos[i]);
 			}
 			System.out.println("");
 		}
