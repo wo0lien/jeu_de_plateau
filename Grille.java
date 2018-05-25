@@ -1,4 +1,4 @@
-public class Grille {
+public class Grille {//plateau affichant la portée d'attaque ou les déplacements possibles d'un personnage
 	
     private int taille; // taille du monde
 	private int[][] etat; // tableau 2D representant les cases de la grille avec le personnage dedans
