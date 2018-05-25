@@ -95,11 +95,12 @@ public class Personnage {
 			plateau.RemovePerso(this);
 		}
 	}
-		
-	
+    
+	// Méthode de déplacements du perso
 	public boolean MovePerso(String d){
         
-        boolean deplace = false;
+        boolean deplace = true;
+		
 		plateau.RemovePerso(this);
         
         int newLigne = ligne;
@@ -130,8 +131,8 @@ public class Personnage {
         }
 		plateau.AddPerso(this);
         return deplace;
-	}
-	
+    }
+	// Affichage des caractéristiques des personnges juxtaposé au plateau
 	public String toString() {
         String description = "perso "+ID+" | equipe : "+equipeName+" | hp : "+hp+" | "+arme.GetName();
         return description;

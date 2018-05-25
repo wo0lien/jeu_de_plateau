@@ -18,7 +18,19 @@ public class jeu_de_plateau {
             System.out.println("2. Modifier les parametres ");
             System.out.println("3. Jouer");
             System.out.println("               -----------------");
-            entry = sc.nextInt();
+            
+            boolean inputError = true;
+            do { //test pour eviter les erreur a cause d'un mauvais type entré
+                    try {
+                            entry = sc.nextInt();
+                            inputError = false;
+                        } 
+                    catch (Exception e) {
+                        System.out.println("Attention il faut que tu rentres un chiffre !");
+                        sc.next(); //passe au prochain test
+                    }
+                } while (inputError);
+                
             if (entry == 1)
             {
                 Regles();
@@ -105,8 +117,19 @@ public class jeu_de_plateau {
 			{
 			
 				System.out.println("Sur quel personnage veux-tu taper?");
-				
-                int c2 = sc.nextInt();
+				boolean inputError = true;
+                int c2 = 0;
+                do { //test pour eviter les erreur a cause d'un mauvais type entré
+                    
+                    try {
+                            c2 = sc.nextInt();
+                            inputError = false;
+                        } 
+                    catch (Exception e) {
+                        System.out.println("Attention il faut que tu rentres un chiffre !");
+                        sc.next(); //passe au prochain test
+                    }
+                } while (inputError);
                 
 				//test de validité de la personnage qu'on va déboiter a faire + application des dégats (réduction des points de vie etc) FACILE LOL allez gl
 			
@@ -249,8 +272,20 @@ public class jeu_de_plateau {
 		boolean testequipe =false;
 		while(testequipe==false){
 			while(c<1||c>6){
-					
-				c = sc.nextInt();//ID du perso
+                boolean inputError = true;
+                
+                //test pour eviter de planter le programme pour une erreur de input type avec le scanner
+                do {
+                    try {
+                            c = sc.nextInt();
+                            inputError = false;
+                        } 
+                    catch (Exception e) {
+                        System.out.println("Attention il faut que tu rentres un chiffre !");
+                        sc.next(); //passe au prochain test
+                    }
+                } while (inputError);
+                
 			}
 			if (persos[c].GetEquipe()==joueur)
 			{
