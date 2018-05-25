@@ -97,23 +97,39 @@ public class Personnage {
 	}
 		
 	
-	public void MovePerso(String d){
-		
+	public boolean MovePerso(String d){
+        
+        boolean deplace = false;
 		plateau.RemovePerso(this);
+        
+        int newLigne = ligne;
+        int newColonne = colonne;
+        
 		if ("s".equals(d))
 		{
-			ligne++;
+			newLigne++;
 		} else if ("q".equals(d))
 		{
-			colonne--;
+			newColonne--;
 		} else if ("z".equals(d))
 		{
-			ligne--;
+            newLigne--;
 		} else if ("d".equals(d))
 		{
-			colonne++;
+			newColonne++;
 		}
+        //test pour savoir si il y a deja un perso sur la case
+        if (plateau.GetEtat()[newLigne][newColonne] != 0)
+        {
+            System.out.println("attention tu vas écraser un personnage");
+        } else
+        {
+            ligne = newLigne;
+            colonne = newColonne;
+            deplace = true;
+        }
 		plateau.AddPerso(this);
+        return deplace;
 	}
 	
 	public String toString() {
@@ -121,5 +137,13 @@ public class Personnage {
         return description;
     }
     
+    /*public void testdeplacement (int x, int y){
+        boolean test = true; 
+        if (x==c && y==l ) {
+            test == false;
+            System.out.println("boloss, tu vas écraser un perso !");
+        }
+    }
+    */        
 }
 

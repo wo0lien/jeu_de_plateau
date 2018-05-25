@@ -155,8 +155,7 @@ public class jeu_de_plateau {
      */
     public static void Deplacement( Personnage[] p, Grille g, Plateau plat, boolean joueur) {
 		
-		Scanner sc = new Scanner(System.in);
-		Scanner scString = new Scanner(System.in); //deuxieme pour les types string sinon ca bug
+		Scanner scString = new Scanner(System.in); //deuxieme pour les types string pour eviter les bugs
 		int nbCasesRest;
 		String entryChar = "";
 		
@@ -182,13 +181,19 @@ public class jeu_de_plateau {
 			g.Reset();
 			g.SetupDeplacement(p[n], nbCasesRest, plat);
 			AfficheGrille(g, p);
-			entryChar = scString.nextLine();
-			p[n].MovePerso(entryChar);
-			nbCasesRest--;
+			boolean deplace = false;
+            do
+            {
+                entryChar = scString.nextLine();
+                deplace = p[n].MovePerso(entryChar);
+            } while (!deplace);
+            nbCasesRest--;
+			
 		}
 		g.Reset();
 		g.SetupDeplacement(p[n], nbCasesRest, plat);
 		AfficheGrille(g, p);
+		System.out.println("On passe a la suite !");
 		System.out.println("On passe a la suite !");
 		
     }
