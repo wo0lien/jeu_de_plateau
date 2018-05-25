@@ -1,0 +1,4 @@
+liste des trucs qu'il reste a faire dans le programme
+-------------------------
+
+verif des hps des persos
