@@ -1,4 +1,4 @@
-import java.util.Scanner;
+ import java.util.Scanner;
 import java.util.InputMismatchException;
 
 public class jeu_de_plateau {
