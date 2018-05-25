@@ -10,11 +10,13 @@ public class Arme{
 	//constructeur
 	
 	public Arme (int idUsed){
+		/*On rappelle le triangle des armes:
+		Epee>hache>lance>epee...*/
 		this.id=idUsed;
 		switch(this.id){
 			case 1:
 				this.name="Arc";
-				this.dmg=20; //10 peut etre apres mais 20 pour l'instant pour les tests
+				this.dmg=20;
 				this.poMax=5;
 				this.poMin=2;
 			break;
