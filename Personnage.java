@@ -4,7 +4,6 @@ public class Personnage {
     private int ligne; //position du perso
     private int colonne;
     private boolean poids;//poids : true = lourd false = leger
-    private Plateau plateau;
     private int hp; //nombre d'HPs du personnage
     private int classe; //2 = guerrier 1 = archer... a faire
     private String name; //nom de la classe voir du personnage si on se chauffe (création d'un objet classe ?)
@@ -13,7 +12,7 @@ public class Personnage {
     Arme arme;
 	// Constructeur complet
 	
-        public Personnage (int n,int c, int l, int a, boolean pod, Plateau p, boolean e) {
+        public Personnage (int n,int c, int l, int a, boolean pod, boolean e) {
 			this.ID = n;
             this.colonne = c;
             this.ligne = l;
@@ -44,9 +43,6 @@ public class Personnage {
 					this.hp=30;
 				}
             }
-            
-            this.plateau = p;
-            plateau.AddPerso(this);
             
             if (equipe)
 			{
@@ -92,45 +88,13 @@ public class Personnage {
 			hp -= degats;
 		} else {
 			hp = 0;
-			plateau.RemovePerso(this);
 		}
 	}
     
 	// Méthode de déplacements du perso
-	public boolean MovePerso(String d){
-        
-        boolean deplace = true;
-		
-		plateau.RemovePerso(this);
-        
-        int newLigne = ligne;
-        int newColonne = colonne;
-        
-		if ("s".equals(d))
-		{
-			newLigne++;
-		} else if ("q".equals(d))
-		{
-			newColonne--;
-		} else if ("z".equals(d))
-		{
-            newLigne--;
-		} else if ("d".equals(d))
-		{
-			newColonne++;
-		}
-        //test pour savoir si il y a deja un perso sur la case
-        if (plateau.GetEtat()[newLigne][newColonne] != 0)
-        {
-            System.out.println("attention tu vas écraser un personnage");
-        } else
-        {
-            ligne = newLigne;
-            colonne = newColonne;
-            deplace = true;
-        }
-		plateau.AddPerso(this);
-        return deplace;
+	public void MovePerso(int l, int c){
+        ligne = l;
+        colonne = c;
     }
 	// Affichage des caractéristiques des personnges juxtaposé au plateau
 	public String toString() {
