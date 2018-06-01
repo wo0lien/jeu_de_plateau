@@ -16,25 +16,25 @@ public class Arme{
 		switch(this.id){
 			case 1:
 				this.name="Arc";
-				this.dmg=20;
+				this.dmg=15;
 				this.poMax=5;
-				this.poMin=2;
+				this.poMin=4;
 			break;
 			case 2:
 				this.name="Epee";
-				this.dmg=20;
+				this.dmg=25;
 				this.poMax=2;
 				this.poMin=0;
 			case 3:
 				this.name="Hache";
-				this.dmg=20;
-				this.poMax=2;
+				this.dmg=35;
+				this.poMax=1;
 				this.poMin=0;
 			break;
 			case 4:
 				this.name="Lance";
 				this.dmg=20;
-				this.poMax=2;
+				this.poMax=3;
 				this.poMin=0;
 			break;
 		}
@@ -55,8 +55,5 @@ public class Arme{
 	}
 	public int GetPoMax(){
 		return poMax;
-	}
-	public void SetDmg(int newDmgs){
-        dmg = newDmgs;
 	}
 }

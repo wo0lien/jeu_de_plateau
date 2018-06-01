@@ -12,10 +12,12 @@ class PanneauGrille extends JPanel {
 	private Color[] c = new Color[6];
 	public int[][] damier = new int[10][10];
 	private boolean init = false; //initialisé ou non
+	
+	//images des décors
 	private BufferedImage map;
 	private BufferedImage trees;
 	
-	//personnages
+	//images des personnages
 	private BufferedImage epee;
 	private BufferedImage epeeBandit;
 	private BufferedImage hache;
@@ -27,9 +29,9 @@ class PanneauGrille extends JPanel {
 	
 	
 	private int transparency;
-	public int offsetInX;
+	public int offsetInX; //offsets dans la fenetre = décalage du damier dans l'image
 	public int offsetInY;
-	private Personnage[] persos;
+	private Personnage[] persos; //tableaux des personnages
 	
 	public int lastLigne; //garde en mémoire la case sur laquelle est la souris pour faire moins de calculs
     public int lastColonne;
@@ -40,6 +42,9 @@ class PanneauGrille extends JPanel {
 		persos = p;
 		
 		try {
+			
+			//images de la map
+			
 			map = ImageIO.read(new File("asset/map.jpg"));
 			trees = ImageIO.read(new File("asset/map_trees.png"));
 			
@@ -57,6 +62,8 @@ class PanneauGrille extends JPanel {
 		
 		transparency = 100;
 		
+		//couleurs du damier stockées dans un tableau
+		
 		c[0] = new Color(200, 200, 200, transparency); //couleur de base gris clair
 		c[1] = new Color(175, 175, 175, transparency); //couleur de base gris foncé
 		c[2] = new Color(254, 233, 42, transparency); //couleur jaune case survolée
@@ -64,11 +71,13 @@ class PanneauGrille extends JPanel {
 		c[4] = new Color(48, 148, 255, transparency); //couleur bleu case accessible attaque equipe 1 
 		c[5] = new Color(254, 42, 49, transparency); //couleur rouge case accessible attaque equipe 2
 		
+		//initialisation pour éviter une erreur
+		
 		lastLigne = 5;
         lastColonne = 6;
         lastColor = 0;
 		
-		resetDamier();
+		resetDamier(); //remise a 0 du damier
 		
 		offsetInX = 120; //positionnement de la grille par rapport à l'image
 		offsetInY = 200;
@@ -79,27 +88,18 @@ class PanneauGrille extends JPanel {
 	public void resetDamier() {
 		for(int i = 0; i < 10; i++)
 		{
-			for (int j = 0; j < 10; j++)//inversé car on part de 0 !!! attention
+			for (int j = 0; j < 10; j++)
 			{
-				if ((i + j) % 2 == 0)
-				{
-					damier[i][j] = 1;
-				} else
-				{
-					damier[i][j] = 0;
-				}	
+				damier[i][j] = (i + j) % 2; //alternance de couleurs
 			}
-			if ((lastLigne + lastColonne) % 2 == 0) //on peut l'écrire bien plus proprement aussi !! a refaire si j'ai le temps
-			{
-				lastColor = 1;
-			} else
-			{
-				lastColor = 0;
-			}
+
+			lastColor = (lastLigne + lastColonne) % 2; //damier de couleurs
 		}
 	}
 	
 	public void paint(Graphics g) { //je dois ajouter la couleur en arrière plan + creer des offsets fonctionnels
+		
+		//affichage du dernier plan
 		g.drawImage(map, 0, 0, null);
 		Damier(g);
 		
@@ -112,6 +112,7 @@ class PanneauGrille extends JPanel {
 				PlaceImageInCase(g, persos[i]);
 			}
 		}
+		//affichage des arbres au premier plan
 		g.drawImage(trees, 0, 0, null);
 	}
 
@@ -122,6 +123,8 @@ class PanneauGrille extends JPanel {
 	public void PlaceImageInCase(Graphics g, Personnage p) {
 		
 		BufferedImage img;
+		
+		//image en fonction de l'équipe et du type de personnage
 		
 		if (p.GetEquipe())
 		{
@@ -189,6 +192,8 @@ class PanneauGrille extends JPanel {
 	 */
 	public void Damier(Graphics g) {
 		
+		//positions d'origin selon x et y
+		
 		int[] pointsY = {15, 0, 15, 30};
 		int[] pointsX = {0, 25, 50, 25};
 		int[] pointsXInit = {0, 25, 50, 25};
@@ -207,6 +212,7 @@ class PanneauGrille extends JPanel {
 		
 		for (int i = 0; i < 10; i++)
 		{
+			//décalage pour la prochaine ligne 
 			for (int l = 0; l < 4; l++)
 			{
 				pointsX[l] = pointsXInit[l] + 25 * i;
@@ -215,14 +221,15 @@ class PanneauGrille extends JPanel {
 			
 			for (int j = 0; j < 10; j++)
 			{
+				//couleur en fonction du numéro dans le damier pour la case
 				g.setColor(c[damier[i][j]]);
-				g.fillPolygon(pointsX, pointsY, 4);
+				g.fillPolygon(pointsX, pointsY, 4); //dessin d'un losange
 				
 				for (int k = 0; k < 4; k++)
 				{
 					pointsX[k] += 25;
 					pointsY[k] -= 15;
-				}
+				} //décalage entre chaque losange de la ligne
 				
 			}
 			
@@ -240,7 +247,7 @@ class PanneauGrille extends JPanel {
 		
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 10; j++) {
-				
+				//calcul de la distance de tir
 				double distanceCase = Math.sqrt(Math.pow((double)(ligne - 1) - (double)(i), 2) + Math.pow((double)(colonne - 1) - (double)(j), 2)); //attention aux -1 qui sont primordiaux pour ne pas confondre les lignes et le tableau
 				if (distanceCase >= (double)(min) && distanceCase <= (double)(max))
 				{
@@ -253,17 +260,6 @@ class PanneauGrille extends JPanel {
 		
 	}
 	
-	public static void afftab(int[][] tab){
-		System.out.println("");
-		for (int i = 0; i < tab.length; i++)
-		{
-			for (int j = 0; j < tab[i].length; j++)
-			{
-				System.out.print(tab[i][j]+" ");
-			}
-			System.out.println("");
-		}
-	}
 	/**
 	 * Méthode qui renvoie la ligne et la colonne du losange se trouvant sous un point V2
 	 * @param x et y du point
@@ -301,21 +297,6 @@ class PanneauGrille extends JPanel {
 		
 		return coord;
 		
-	}
-	
-	//juste pour afficher des tableaux pour debug tout ca
-	public static void affichet(int[] tab) {
-		
-		for (int i = 0; i < tab.length; i++)
-		{
-			System.out.print(tab[i]+"   ");
-		}
-		
-	}
-		
-	//changement de la couleur utilisée par la méthode
-	public void setColor(Color col, int i) {
-		c[i] = col;
 	}
 	//configure la couleur de la case (par l'intermédiaire du damier)
 	public void setCase(int ligne, int colonne, int color) {

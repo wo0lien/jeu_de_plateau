@@ -5,9 +5,7 @@ public class Personnage {
     private int colonne;
     private boolean poids;//poids : true = lourd false = leger
     private int hp; //nombre d'HPs du personnage
-    private int classe; //2 = guerrier 1 = archer... a faire
-    private String name; //nom de la classe voir du personnage si on se chauffe (création d'un objet classe ?)
-    private boolean equipe;
+    private boolean equipe; //true = équipe bleue false = équipe rouge
     private String equipeName; //nom de l'équipe pour éviter les true false + aligner l'affichage
     Arme arme;
 	// Constructeur complet
@@ -19,14 +17,7 @@ public class Personnage {
             this.arme = new Arme(a);
             this.equipe=e;
             
-            
-            if (a == 1){
-                this.classe=1;
-            }else{
-                this.classe=2;
-            }
-            
-            this.poids = pod;
+            this.poids = pod; //poids lourd ou léger (léger = + de déplacment  / lourd  = + d'HPs
             
             if (a == 2){
 				
@@ -36,20 +27,24 @@ public class Personnage {
                     this.hp=50;
                 }
                 
-            } else {
+            } else if(a != 1){
 				if (pod== true){
-					this.hp = 50;
+					this.hp = 60;
 				} else {
-					this.hp=30;
+					this.hp= 40;
 				}
-            }
-            
-            if (equipe)
+            } else
 			{
-				this.equipeName = "Rouge";
-			} else
+				this.hp = 30;
+			}
+			
+            
+            if (equipe) //pour l'affichage des équipes
 			{
 				this.equipeName = "Bleue";
+			} else
+			{
+				this.equipeName = "Rouge";
 			}
 			
 			
@@ -82,7 +77,11 @@ public class Personnage {
 		return this.equipe;
 	}
 	
-	public void SetHp(int degats){
+	/**
+	 * Méthode qui modifie le nombre d'hp mais pas en dessous de 0
+	 * @param dégats appliqués
+	 */
+	public void SetHp(int degats){ 
 		if (hp >= degats)
 		{
 			hp -= degats;
@@ -91,12 +90,17 @@ public class Personnage {
 		}
 	}
     
-	// Méthode de déplacements du perso
+	/**
+	 * Méthode de déplacements du perso
+	 * @param ligne et colonne de la nouvelle case
+	 */
 	public void MovePerso(int l, int c){
         ligne = l;
         colonne = c;
     }
-	// Affichage des caractéristiques des personnges juxtaposé au plateau
+	/**
+	 * Affichage des caractéristiques des personnges juxtaposé au plateau
+	 */
 	public String toString() {
         String description = "perso "+ID+" | equipe : "+equipeName+" | hp : "+hp+" | "+arme.GetName();
         return description;

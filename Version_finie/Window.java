@@ -3,8 +3,7 @@ import java.awt.*;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseEvent;
-import java.lang.reflect.Array;
-import java.lang.reflect.Field;
+
 
 
 /**
@@ -14,13 +13,13 @@ import java.lang.reflect.Field;
 public class Window extends JFrame implements MouseListener,MouseMotionListener {
     
     private PanneauGrille pg;
-    private Color c;
     
     //public Grille portee = new Grille(10); //plateau utilisé uniquement pour la portée des attaques et des déplacements
         
     public Personnage[] persos = new Personnage[6];
-    private int pSelected;
+    private int pSelected; //ID perso sélectionné et gardé en mémoire temporairement
     private boolean wasPerso; //pour savoir si il y avait un personnage sur la dernière case survolée
+    private int lastPerso; //perso sur la case survolée
     private boolean equipe; //equipe du joueur en train de jouer
     private int clicMode;
         
@@ -42,9 +41,10 @@ public class Window extends JFrame implements MouseListener,MouseMotionListener 
 		this.addMouseListener(this);
 		this.addMouseMotionListener(this);
 		
-		clicMode = 1;
+		clicMode = 1; //mode pour que le clic souris correponde a differentes actions (attaque / déplacement)
 		equipe = true; // joueur 1
-		wasPerso = false;
+		wasPerso = false; //perso dans la dernière case survolée
+		lastPerso = 10;
         
     }
     
@@ -75,7 +75,6 @@ public class Window extends JFrame implements MouseListener,MouseMotionListener 
 		//on récupère un possible personnage sur la case, pas encore de gestion de l'equipe
 		int p = getPersoInCase(ligne, colonne);
 		
-		//au clic il y a plusieurs modes / a faire plus tard
 		if (clicMode == 1) //mode 1
 		{
 			if (p != 10) //test si il y a un perso ou pas
@@ -83,7 +82,6 @@ public class Window extends JFrame implements MouseListener,MouseMotionListener 
 				if (persos[p].GetEquipe() == equipe)
 				{
 					clicMode = 2; //on passe en mode 2 pour le prochain clic
-					System.out.println("check");
 					pSelected = p; //on garde en mémoire le personnage qui a été choisi
 					
 					//setup du nombre de case de déplacement possible
@@ -105,7 +103,7 @@ public class Window extends JFrame implements MouseListener,MouseMotionListener 
 				
 			} else
 			{
-				System.out.println("Choisis mieux !");
+				System.out.println("Choisis mieux il n'y a personne ici !");
 			}
 			
 		} else if (clicMode == 2)//mode 2
@@ -115,23 +113,24 @@ public class Window extends JFrame implements MouseListener,MouseMotionListener 
 			{
 				if (p == 10 || p == pSelected) //test si il y a un perso ou pas
 				{
+					//déplacement du personnage sur le damier et visuellement
 					persos[pSelected].MovePerso(ligne, colonne);
 					clicMode = 3;
 					pg.resetDamier();
 					this.repaint();
-					System.out.println("On passe à la phase d'attaque  !");
+					System.out.println("On passe a la phase d'attaque  !");
 					System.out.println("Choisis maintenant avec quel perso tu vas attaquer !");
 					
 				} else
 				{
-					System.out.println("Tu vas écraser quelqu'un !! Fais attention !");
+					System.out.println("Tu vas ecraser quelqu'un !! Fais attention !");
 				}
 			} else
 			{
 				System.out.println("Trop loin...");
 			}
 			
-		} else if (clicMode == 3) //passage en mode 3
+		} else if (clicMode == 3) //en mode 3
 		{
 			if (p != 10) //test si il y a un perso ou pas
 			{
@@ -148,11 +147,11 @@ public class Window extends JFrame implements MouseListener,MouseMotionListener 
 			{
 				System.out.println("Nope pas ici, il n'y a personne!");
 			}
-		} else if (clicMode == 4)
+		} else if (clicMode == 4) //mode 4
 		{
-			if (p != 10)
+			if (p != 10) //si il y a quelqu'un sur la case
 			{
-				if (persos[p].GetEquipe() != equipe)
+				if (persos[p].GetEquipe() != equipe) // si il n'est pas dans l'équipe du joueur
 				{
 					if (pg.lastColor == 4 || pg.lastColor == 5) //on test la portée de l'attaque
 					{
@@ -173,11 +172,11 @@ public class Window extends JFrame implements MouseListener,MouseMotionListener 
 						System.out.println("Changement de joueur !!");
 						
 					} else {
-						System.out.println("Ce personnage n'est pas a portée...");
+						System.out.println("Ce personnage n'est pas a portee...");
 					}
 					
 				} else {
-					System.out.println("Tu ne peux pas attaquer ton équipe ! On va changer de perso du coup");
+					System.out.println("Tu ne peux pas attaquer ton equipe ! On va changer de perso du coup");
 					SetupAttaque(p);
 				}
 			} else
@@ -224,14 +223,21 @@ public class Window extends JFrame implements MouseListener,MouseMotionListener 
 				pg.lastLigne = ligne;
 				pg.lastColonne = colonne;
 				
-				if (wasPerso && (clicMode == 1 || clicMode == 3))//test chui pas sur que ca marche
+				if (wasPerso && (clicMode == 1 || clicMode == 3)) //si il y avait un perso et qu'on est pas en mode 2 ou 4 (portée affichée de base et permannente)
 				{
 					pg.resetDamier();
 					wasPerso = false;
 				}
 				if (p != 10) //on teste si il y a un personnage sur la case 
 				{
-					DescriptionPerso(p); //description du perso dans la console
+					if (lastPerso != p)
+					{
+						System.out.println("");
+						System.out.println(persos[p]); //description du perso dans la console
+						System.out.println("");
+						lastPerso = p;
+					}
+					
 					if (clicMode == 1 || clicMode == 3)
 					{
 						SetupAttaque(p); //on affiche a la volée la portée d'attaque du perso
@@ -243,12 +249,6 @@ public class Window extends JFrame implements MouseListener,MouseMotionListener 
 			
 			
 		}
-	}
-	/**
-	 * Méthode qui permet de setup la portée d'une attaque a partir d'un personnage
-	 */
-	public void DescriptionPerso(int p) {
-		 System.out.println(" les HPs du perso : "+persos[p].GetHP());
 	}
 	/**
 	 * Méthode qui permet de setup la portée d'une attaque a partir d'un personnage
@@ -276,7 +276,7 @@ public class Window extends JFrame implements MouseListener,MouseMotionListener 
 		this.repaint();
 	}
 	/**
-	 * Méthode qui permet de récupérer l'ID du personnage dans la case visée
+	 * Méthode qui permet de récupérer l'ID du personnage dans la case visée renvoie 10 si il n'y a personne 
 	 */
 	public int getPersoInCase(int l, int c) {
 		
@@ -321,8 +321,9 @@ public class Window extends JFrame implements MouseListener,MouseMotionListener 
     public static Personnage[] PlacementPersos(Personnage[] persos) {
 		
 		int n = 0; //compteur
+		boolean equipe = false; //choix de l'équipe
         
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 6; i++)
 		{
 			boolean pod= false;
 			int c=(int)(2*Math.random());
@@ -333,12 +334,16 @@ public class Window extends JFrame implements MouseListener,MouseMotionListener 
 				}
 				c =(int)(4*Math.random());
 				int a = c+1;
-				
-				
-			persos[n] = new Personnage(n + 1, 2, i + 3, a, pod, true);
-            n++;
-            persos[n] = new Personnage(n + 1, 8, i + 3, a, pod, false);
-            n++;
+				equipe = !equipe;
+			
+			if (equipe)
+			{
+				persos[n] = new Personnage(n + 1, 2, i + 3, a, pod, true);
+			} else
+			{
+				persos[n] = new Personnage(n + 1, 8, i + 3, a, pod, false);
+			}
+			n++;
 		}
         return persos;
     }
@@ -350,16 +355,30 @@ public class Window extends JFrame implements MouseListener,MouseMotionListener 
 		
 		int degats = att.GetArme().GetDmg();
 		
-		if ((att.GetArme().GetId() + 1) % 4 == def.GetArme().GetId()) //si l'arme du defenseur est celle d'apres l'arme de l'attaquant alors - 10
+		//ici on décale de 2 les Id car ils commencent à 2 et on veut faire un modulo autours de 0
+		if (att.GetArme().GetId() != 1)
 		{
-			degats = degats - 10;
-		} else if ((def.GetArme().GetId() + 1) % 4 == att.GetArme().GetId())//si l'arme du defenseur est celle d'avant l'arme de l'attaquant alors + 10
+			if ((att.GetArme().GetId() - 1) % 4 == def.GetArme().GetId() - 2) //si l'arme du defenseur est celle d'apres l'arme de l'attaquant alors - 10
+			{
+				degats = degats - 10;
+				System.out.println("Ce n'est pas tres efficace !");
+			} else if ((def.GetArme().GetId() - 1) % 4 == att.GetArme().GetId() - 2)//si l'arme du defenseur est celle d'avant l'arme de l'attaquant alors + 10
+			{
+				degats = degats + 10;
+				System.out.println("C'est super efficace !");
+			} else
+			{
+				System.out.println("C'est la meme arme degats classiques !");
+			}
+			
+		} else
 		{
-			degats = degats + 10;
+			System.out.println("L'arc applique toujours les memes degats !");
 		}
 		
+		System.out.print(degats+" de degats ");
 		def.SetHp(degats);
-		System.out.println("Les hps du perso sont maintenant de "+def.GetHP());
+		System.out.println("Les hps du perso sont maintenant de : "+def.GetHP());
 		
 	}
 	/**
@@ -372,7 +391,7 @@ public class Window extends JFrame implements MouseListener,MouseMotionListener 
 		 
 		 for (int i = 0; i < 6; i++)
 		 {
-			 if (!persos[i].GetEquipe() && persos[i].GetHP() != 0)
+			 if (!persos[i].GetEquipe() && persos[i].GetHP() != 0) //si un perso de l'équipe adverse a encore de la vie
 			 {
 				gagne = false;
 			 }
