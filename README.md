@@ -1,1 +1,0 @@
-Projet d'info en première année INSA de Lyon
